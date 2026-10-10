@@ -1,0 +1,41 @@
+name: Update GitHub Contribution Graphs
+
+on:
+  schedule:
+    - cron: "17 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-contribution-graphs
+  cancel-in-progress: false
+
+jobs:
+  update-contributions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate contribution graphs
+        run: python generate_heatmap.py
+
+      - name: Commit and push updated SVGs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/contribution-heatmap.svg assets/contribution-graph.svg
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update contribution graphs"
+            git push
+          else
+            echo "Contribution graphs are already up to date."
+          fi
