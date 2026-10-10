@@ -1,3 +1,6 @@
+![Contribution Graph Auto-Update](https://github.com/pavanharali018-dotcom/pavanharali018-dotcom/actions/workflows/update-contributions.yml/badge.svg)
+
+
 # Hey, I'm Pavan 👋
 
 🎓 B.Tech Computer Science Engineering Student  
